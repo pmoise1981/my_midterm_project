@@ -1,22 +1,13 @@
 import pandas as pd
-import os
 
 class HistoryManager:
-    def __init__(self, history_file='history.csv'):
-        self.history_file = history_file
+    def __init__(self):
+        self.history = pd.DataFrame(columns=["expression", "result"])  # Use Pandas DataFrame to store history
 
-    def save_history(self, expression, result):
-        df = self.load_history()
-        new_entry = pd.DataFrame({'expression': [expression], 'result': [result]})
-        df = pd.concat([df, new_entry], ignore_index=True)
-        df.to_csv(self.history_file, index=False)
+    def add_to_history(self, expression, result):
+        # Add the new entry to history
+        self.history = self.history.append({"expression": expression, "result": result}, ignore_index=True)
 
-    def load_history(self):
-        if os.path.exists(self.history_file):
-            return pd.read_csv(self.history_file)
-        return pd.DataFrame(columns=['expression', 'result'])
-
-    def clear_history(self):
-        if os.path.exists(self.history_file):
-            os.remove(self.history_file)
+    def get_history(self):
+        return self.history  # Return the DataFrame
 
