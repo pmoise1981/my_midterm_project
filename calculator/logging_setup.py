@@ -2,12 +2,13 @@ import logging
 import os
 
 def setup_logging():
-    log_level = os.getenv('LOG_LEVEL', 'INFO')
-    log_file = os.getenv('LOG_FILE', 'app.log')
+    # Set logging level from environment variable (default to INFO)
+    log_level = os.getenv("LOG_LEVEL", "INFO").upper()  # Default to INFO if not set
+    logging.basicConfig(level=log_level)
+    logger = logging.getLogger()
 
-    logging.basicConfig(
-        level=log_level,
-        format='%(asctime)s - %(levelname)s - %(message)s',
-        handlers=[logging.FileHandler(log_file), logging.StreamHandler()]
-    )
+    # Log an example message
+    logger.info("Logging setup complete.")
+
+    return logger
 
